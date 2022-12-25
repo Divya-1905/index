@@ -1,0 +1,111 @@
+from django.db import models
+from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
+from django.utils import timezone
+from django.contrib.auth.hashers import make_password
+
+  
+class User(models.Model):
+    name = models.CharField(max_length=20)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=15,default=None,blank=True,null=True)
+    
+    def save(self, *args, **kwargs):
+        password = make_password(self.password)
+        password.save(using= self.db)
+        return User
+        # super(User, self).save(*args, **kwargs)
+class signup(models.Model):
+    
+    name = models.CharField(max_length=20)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=10,blank=True)
+    phone = models.CharField(max_length=10,unique=True)
+    def __str__(self):
+        return self.name
+class login(models.Model):
+    name = models.CharField(max_length=20)
+    password = models.CharField(max_length=10,unique=True,blank=True)
+    def __str__ (self):
+        return self.name   
+        
+class MyUserBaseManager(BaseUserManager):
+    def create_user(self,name,phone,password,email):
+        if not phone:
+            try:
+                phone = int(phone)
+            except:
+                raise ValueError('mobile number only a interger fields')
+        if not email:
+            raise ValueError('email is must be requried')
+        user = self.model(email=self.normalize_email(email))
+        user.name = name 
+        user.phone = phone
+        user.password = make_password(password)
+        user.save(using=self._db)
+        return user
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+# class baseuser(BaseUserManager):
+#     def create_user(self,name,email,phone,address,date_of_birth):
+#         if not phone:
+#            try:
+#                phone = int(phone)
+#            except:
+#                raise ValueError('numbers are only intergers')
+#            raise ValueError('phone field is must')
+#         if not email:
+#            raise ValueError('email field is requried')
+#         user.name = name
+#         user = self.model(email=self.normalize_email(email))
+#         user.phone = phone
+#         user.date_of_birth = date_of_birth
+#         user.address = address
+#         user.save(using=self.db)
+#         return user
+#     def create_superuser(self,name,email,user_type,phone,adress): 
+#         user = self.create_user(email=email,name=name,phone=phone,address=adress,user_type= user_type)
+#         if user_type=='is_admin':
+#             user.user_type = 'is_admin'
+#         user.save(using = self.db)
+#         return user  
+# user_type_choices =(
+#     ('is_admin','is_admin'),
+#     ('is_custamer','is_customer'),
+# )    
+# class User(AbstractBaseUser):
+#     name = models.CharField(max_length=20)
+#     email = models.EmailField(unique=True)
+#     adress = models.CharField(max_length=50)
+#     phone = models.IntegerField(max_length=10)
+#     user_type = models.CharField(max_length=25,choices=user_type_choices,blank=True,default=None    
+#     )
+#     created_at = models.DateTimeField(default=timezone.now)   
+#     data = baseuser()
+#     USERNAME_FIELD = 'email'
+#     REQUIRED_FIELDS = ['phone']
+#     @property
+#     def is_custamer(self):
+#         return self.user_type == 'is_customer' or self.user_type == 'is_admin'
+
+#     @property
+#     def is_admin(self):
+#         return self.user_type == 'is_admin'
+
+#     class Meta:
+#         ordering = ('created_at')   
