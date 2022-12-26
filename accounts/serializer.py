@@ -11,10 +11,10 @@ class signupserializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ['last_login']
-# class logserializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['last_login']
+class logserializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['last_login','address','phone']
 
 
 
