@@ -3,47 +3,40 @@ from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
 
-  
-class User(models.Model):
-    name = models.CharField(max_length=20)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=15,default=None,blank=True,null=True)
-    
-    def save(self, *args, **kwargs):
-        password = make_password(self.password)
-        password.save(using= self.db)
-        return User
-        # super(User, self).save(*args, **kwargs)
-class signup(models.Model):
-    
-    name = models.CharField(max_length=20)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=10,blank=True)
-    phone = models.CharField(max_length=10,unique=True)
-    def __str__(self):
-        return self.name
-class login(models.Model):
-    name = models.CharField(max_length=20)
-    password = models.CharField(max_length=10,unique=True,blank=True)
-    def __str__ (self):
-        return self.name   
+
         
-class MyUserBaseManager(BaseUserManager):
-    def create_user(self,name,phone,password,email):
+class MyUsermanager(BaseUserManager):
+    def create_user(self,name,password,phone,email):
         if not phone:
             try:
-                phone = int(phone)
+                phone =int(phone)
             except:
-                raise ValueError('mobile number only a interger fields')
+                raise ValueError({'phone must be interger'})
         if not email:
-            raise ValueError('email is must be requried')
-        user = self.model(email=self.normalize_email(email))
-        user.name = name 
-        user.phone = phone
-        user.password = make_password(password)
-        user.save(using=self._db)
-        return user
- 
+            raise ValueError({'email is requried'})
+        data = self.model(email=self.normalize_email(email))
+        # data.set_password(password)
+        data.name = name
+        data.phone = phone
+        data.save(using=self._db)
+        return data
+class User(AbstractBaseUser):
+    name = models.CharField(max_length=20)
+    email = models.EmailField(unique=True)
+    address = models.CharField(max_length=50)
+    phone = models.CharField(max_length=10)
+    # password = models.CharField(max_length=10,null=True)
+    created_at = models.DateField(auto_now_add=True)
+    object= BaseUserManager
+    USERNAME_FIELD = ['email']
+    REQUIRED_FIELDS = ['phone']
+    class Meta:
+        ordering =['created_at']
+    def save(self,*args, **kwargs):
+        self.password = make_password(self.password)  
+        return super().save(*args,**kwargs) #defalut pass value is changed 
+                         
+
  
  
  
@@ -109,3 +102,42 @@ class MyUserBaseManager(BaseUserManager):
 
 #     class Meta:
 #         ordering = ('created_at')   
+# class User(models.Model):
+#     name = models.CharField(max_length=20)
+#     email = models.EmailField(unique=True)
+#     password = models.CharField(max_length=15,default=None,blank=True,null=True)
+    
+#     def save(self, *args, **kwargs):
+#         password = make_password(self.password)
+#         password.save(using= self.db)
+#         return User
+#         # super(User, self).save(*args, **kwargs)
+# class MyUserBaseManager(BaseUserManager):
+#     def create_user(self,name,phone,password,email):
+#         if not phone:
+#             try:
+#                 phone = int(phone)
+#             except:
+#                 raise ValueError('number only a interger fields')
+#         if not email:
+#             raise ValueError('email is must be requried')
+#         user = self.model(email=self.normalize_email(email))
+#         user.name = name 
+#         user.phone = phone
+#         user.password = make_password(password)
+#         user.save(using=self._db)
+#         return user
+
+
+
+# class signup(models.Model):
+#     name = models.CharField(max_length=20)
+#     password = models.CharField(max_length=10,blank=True)
+#     def __str__(self):
+#         password = make_password(self.request.data['password'])
+#         return self.name
+# class login(models.Model):
+#     name = models.CharField(max_length=20)
+#     password = models.CharField(max_length=10,unique=True,blank=True)
+#     def __str__ (self):
+#         # return self.name   
