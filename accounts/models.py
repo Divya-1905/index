@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager,AbstractBaseUser,UserManager
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
 
 
         
-class MyUsermanager(BaseUserManager):
+class MyUsermanager(UserManager):
     def create_user(self,name,password,phone,email):
         if not phone:
             try:
@@ -26,8 +26,8 @@ class User(AbstractBaseUser):
     phone = models.CharField(max_length=10)
    
     created_at = models.DateField(auto_now_add=True)
-    object= BaseUserManager
-    USERNAME_FIELD = ['email']
+    objects= MyUsermanager()
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['phone']
     class Meta:
         ordering =['created_at']

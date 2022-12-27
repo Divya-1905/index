@@ -14,18 +14,6 @@ class signupserializer(serializers.ModelSerializer):
 class logserializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude = ['last_login','address','phone']
-
-
-
-
-
-
-    # def create(self,validated_data):
-    #     data = User.object.c(email = validated_data['email'],
-    #     password = validated_data['password'],address= validated_data['address'],
-    #     name = validated_data['name'],phone=validated_data['phone'])
-    #     data.save()
-    #     return data 
-
+        exclude = ['phone','address','last_login','name']
+     
 
