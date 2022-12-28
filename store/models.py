@@ -9,11 +9,6 @@ Product_choice =[
         ('CLOTHING','clothing'),
         ('FURNITURE','furniture')
     ]
-
-# class products(models.Model):grocery
-#     name = models.CharField(max_length=25)
-#     def __str__(self):
-#         return self.name 
 quanity_choies=[
     ('grams','grams'),
     ('kilograms','kilograms')
@@ -23,7 +18,7 @@ Product_choices = [
     ('chocolate','chocolate')
 ]      
 class Grocery(models.Model):
-    produts_name = models.CharField(choices = Product_choices,max_length=20,default=None,blank=True)
+    produts_name = models.CharField(choices = Product_choices,default=None,null=True,max_length=30)
     price = models.IntegerField(blank=True,null=True)
     quanity = models.CharField(choices=quanity_choies,default=None,blank=True,max_length=30)
     def __str__(self):

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from.models import Furiniture,Clothing,Stateonery,Grocery,consumer
 from rest_framework.permissions import AllowAny
-from rest_framework.generics  import CreateAPIView,RetrieveAPIView,RetrieveUpdateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.generics  import CreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_100_CONTINUE,HTTP_201_CREATED,HTTP_404_NOT_FOUND,HTTP_200_OK,HTTP_206_PARTIAL_CONTENT
@@ -67,7 +67,7 @@ class StatenoeryCreate(APIView):
                 return Response({'status':'statonery created'},status= HTTP_200_OK)
             except:
                 return Response({'status':'statonery is not crated'},status=HTTP_206_PARTIAL_CONTENT)
-class StatenoeyEditView(RetrieveUpdateDestroyAPIView):
+class StatenoeryEditView(RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny]
     serializer_class = statoneryserializer
     def retrive(self,request,pk):
@@ -100,7 +100,7 @@ class ClothingEditView(RetrieveUpdateDestroyAPIView):
             return Response(serializer.data,status=HTTP_100_CONTINUE)
         except:
             return Response({'status':'clothing is not updated'},status=HTTP_206_PARTIAL_CONTENT)    
-class Funriniture(APIView):
+class Funriniturecreate(APIView):
     permission_classes = [AllowAny]
     serializer_class = Furinitureseriliazer
     def create(self,request):
@@ -113,7 +113,7 @@ class FunrinitureEditView(RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny] 
     serializer_class = Furinitureseriliazer
     
-    def retrive(self,request,pk) :
+    def retrive(self,request,pk):
        queryset = Furiniture.objects(id=pk)
        try:
           serializer = Furinitureseriliazer(queryset = queryset)
