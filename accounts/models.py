@@ -19,6 +19,17 @@ class MyUsermanager(UserManager):
         data.phone = phone
         data.save(using=self._db)
         return data
+    def create(self,phone,email,name):
+        user = self._create(phone,email,name)
+        user.save()
+        return user
+    def create_superuser(self,phone,email,name):
+        user = self._create(phone=phone,email=email,name=name)
+        user.is_admin=True
+        user.save()
+        return user  
+
+
 class User(AbstractBaseUser):
     name = models.CharField(max_length=20)
     email = models.EmailField(unique=True)
@@ -32,7 +43,7 @@ class User(AbstractBaseUser):
     class Meta:
         ordering =['created_at']
     def save(self,*args, **kwargs):
-        self.password = make_password(self.password)  
+        self.password = make_password(self.password)  #encripte the password encript the password
         return super().save(*args,**kwargs) #defalut pass value is changed is a have  password it become encritped
                          
 

@@ -10,20 +10,24 @@ Product_choice =[
         ('FURNITURE','furniture')
     ]
 
-class products(models.Model):
-    name = models.CharField(max_length=25)
-    def __str__(self):
-        return self.name 
+# class products(models.Model):grocery
+#     name = models.CharField(max_length=25)
+#     def __str__(self):
+#         return self.name 
 quanity_choies=[
     ('grams','grams'),
     ('kilograms','kilograms')
-]        
-class Groceroy(models.Model):
-    name = models.CharField(max_length=20)
+]  
+Product_choices = [
+    ('sugar','sugar'),
+    ('chocolate','chocolate')
+]      
+class Grocery(models.Model):
+    produts_name = models.CharField(choices = Product_choices,max_length=20,default=None,blank=True)
     price = models.IntegerField(blank=True,null=True)
     quanity = models.CharField(choices=quanity_choies,default=None,blank=True,max_length=30)
     def __str__(self):
-        return self.name
+        return self.produts_name
 stateonery_choices=[
     ('pen','pen'),
     ('books','books'),
@@ -67,6 +71,13 @@ class Furiniture(models.Model):
     items = models.CharField(choices = furiniture_choices,default=None,null=True,max_length=30)
     def __str__(self):
         return self.name 
+
+measurements_choices =[
+    ('grams','grams'),
+    ('kilograms','kilograms'),
+    ('counts','counts'),
+    ('liters','liters')
+]
 class consumer(models.Model):
     name = models.CharField(max_length=30)
     Address = models.CharField(max_length=20)
@@ -74,6 +85,8 @@ class consumer(models.Model):
     email = models.CharField(max_length=30)
     created_at = models.DateField(auto_now_add=True)
     Products_choice = models.CharField(choices=Product_choice,default=None,blank=True,null=True,max_length=30)
+    Grocery_choice = models.ForeignKey(Grocery,on_delete=models.CASCADE)
+    measurements = models.CharField(choices=measurements_choices,default=measurements_choices[1],blank=True,null=True,max_length=30)
     def __str__(self):
         return self.phone
 
