@@ -3,15 +3,15 @@ from rest_framework import serializers
 
 
 class consumerserializer(serializers.ModelSerializer):
-    measurements = serializers.SerializerMethodField("get_measuremenstchoice")
+    # measurements = serializers.SerializerMethodField("get_measuremenstchoice")
     class Meta:
         model =Consumer
         fields = '__all__' 
-    def get_measuremenstchoice(self,obj):
-        print('hey')
-        if self.Products_choice == ['grocery']:
-            print('hai')
-            return ('grams','grams'),('kilograms','kilograms') 
+    # def get_measuremenstchoice(self,obj):
+    #     print('hey')
+    #     if self.get_attribute(Consumer.Products_choice) == ['grocery']:
+    #         print('hai')
+    #         return ('grams','grams'),('kilograms','kilograms') 
 
 class Groceryserializer(serializers.ModelSerializer):
     class Meta:

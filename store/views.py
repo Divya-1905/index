@@ -52,9 +52,13 @@ class consumerEditView(RetrieveUpdateDestroyAPIView):
             print('hello')
             return Response({"status":"consumer_not_exitst"},status=HTTP_206_PARTIAL_CONTENT)
 
-class GroceryView(APIView):
+class GroceryView(ListCreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = Groceryserializer
+    def list(self,request):
+        queryset = Grocery.objects.all()
+        serializer = Groceryserializer(queryset, many=True)
+        return Response(serializer.data)
     def post(self,request):
         seriliazer = Groceryserializer(data=request.data)
         if seriliazer.is_valid():
@@ -75,9 +79,13 @@ class GroceryEditView(RetrieveUpdateDestroyAPIView):
         except:
             return Response({"status":"Gerocery_Id_doesnot_exist"},status=HTTP_206_PARTIAL_CONTENT)
 
-class StationeryCreate(APIView):
+class StationeryCreate(CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = stationeryserializer
+    def list(self,request):
+        queryset = Stationery.objects.all()
+        serializer = stationeryserializer(queryset, many= True)
+        return Response(serializer.data)
     def post(self,request):
         serializer = stationeryserializer(data=request.data)
         if serializer.is_valid():
@@ -102,6 +110,10 @@ class ClothingCreate(APIView):
     permission_classes = [AllowAny]
     serializer_class = Clothingseriallizer
     def post(self,request):
+        queryset = Clothing.objects.all()
+        serializer = Clothingseriallizer(data=request.data)
+        return Response(serializer.data)
+    def post(self,request):
         serializer = Clothingseriallizer(data=request.data)
         if serializer.is_valid():
             try:
@@ -124,6 +136,10 @@ class ClothingEditView(RetrieveUpdateDestroyAPIView):
 class Funriniturecreate(APIView):
     permission_classes = [AllowAny]
     serializer_class = Furinitureseriliazer
+    def list(self,requsest):
+        queryset = Furinitureseriliazer.objects.all()
+        serializer = Furinitureseriliazer(queryset)
+        return Response(serializer.data)
     def post(self,request):
         serializer = Furinitureseriliazer(data=request.data)
         if serializer.is_valid():

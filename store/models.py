@@ -83,3 +83,4 @@ class Consumer(models.Model):
     measurements = models.CharField(choices=measurements_choices,default=measurements_choices[1],blank=True,null=True,max_length=30)
     def __str__(self):
         return self.phone
+        
