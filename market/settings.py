@@ -93,7 +93,7 @@ AUTH_USER_MODEL = 'accounts.User'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'index', 
+        'NAME': 'store', 
         'USER': 'postgres',
         'PASSWORD': 'root',
         'HOST': '127.0.0.1', 

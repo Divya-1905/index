@@ -1,14 +1,15 @@
 from django.urls import path
-from .views import GroceryView,GroceryEditView,consumer_create,consumerEditView,StatenoeryCreate,StatenoeryEditView,ClothingCreate,ClothingEditView,Funriniturecreate,FunrinitureEditView
+from .views import consumer_create,consumerEditView,StationeryCreate,StationeryEditView,ClothingCreate,ClothingEditView,Funriniturecreate,FunrinitureEditView,GroceryView,GroceryEditView,consumerprofileEdit
 urlpatterns =[
     path('consumer/',(consumer_create.as_view())),
     path('consumeredit/<str:pk>',(consumerEditView.as_view())),
     path('gr/',(GroceryView.as_view())),
-    path('gredit/<str:pk>',(GroceryEditView.as_view())),
-    path('statenoerycreate/',(StatenoeryCreate.as_view())),
-    path('statenoeryedit/',(StatenoeryEditView.as_view())),
-    path('clothingcreate/',(ClothingCreate.as_view())),
-    path('clothingedit/',(ClothingEditView.as_view())),
-    path('funriniturecreate/',(Funriniturecreate.as_view())),
-    path('funrinitureedit/',(FunrinitureEditView.as_view())),
+    path('gr_edit/<str:pk>',(GroceryEditView.as_view())),
+    path('stcreate/',(StationeryCreate.as_view())),
+    path('st_edit/<str:pk>',(StationeryEditView.as_view())),
+    path('clcreate/',(ClothingCreate.as_view())),
+    path('cl_edit/<str:pk>',(ClothingEditView.as_view())),
+    path('funcreate/',(Funriniturecreate.as_view())),
+    path('funedit/<str:pk>',(FunrinitureEditView.as_view())),
+    path('consumerprofile_edit/<str:pk>',(consumerprofileEdit.as_view()))
 ]

@@ -11,6 +11,9 @@ class signupserializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ['last_login']
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user 
 class logserializer(serializers.ModelSerializer):
     class Meta:
         model = User

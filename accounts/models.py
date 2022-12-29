@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 
         
 class MyUsermanager(UserManager):
-    def create_user(self,name,password,phone,email):
+    def create_user(self,name,password,phone,email,address):
         if not phone:
             try:
                 phone =int(phone)
@@ -17,14 +17,16 @@ class MyUsermanager(UserManager):
         data = self.model(email=self.normalize_email(email))
         data.name = name
         data.phone = phone
+        data.address = address
+        data.password = make_password(password)
         data.save(using=self._db)
         return data
-    def create(self,phone,email,name):
-        user = self._create(phone,email,name)
+    def create(self,phone,email,name,password,address):
+        user = self.create_user(phone=phone,email=email,name=name,password=password,address=address)
         user.save()
         return user
     def create_superuser(self,phone,email,name):
-        user = self._create(phone=phone,email=email,name=name)
+        user = self.create_user(phone=phone,email=email,name=name)
         user.is_admin=True
         user.save()
         return user  
@@ -43,7 +45,7 @@ class User(AbstractBaseUser):
     class Meta:
         ordering =['created_at']
     def save(self,*args, **kwargs):
-        self.password = make_password(self.password)  #encripte the password encript the password
+         #encripte the password encript the password
         return super().save(*args,**kwargs) #defalut pass value is changed is a have  password it become encritped
                          
 

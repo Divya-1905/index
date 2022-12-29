@@ -21,7 +21,9 @@ class signupview(APIView):
         serializer= signupserializer(data=request.data)
         if serializer.is_valid():
              try:
+                print('hai')
                 serializer.save()
+                print('hai')
                 return Response({'status':'created'},status=HTTP_201_CREATED)
              except:
                 return Response({'status':'not created','error':serializer.errors},status= HTTP_206_PARTIAL_CONTENT)    

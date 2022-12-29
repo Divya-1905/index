@@ -1,31 +1,50 @@
 from django.shortcuts import render
-from.models import Furiniture,Clothing,Stateonery,Grocery,consumer
+from.models import Furiniture,Clothing,Stationery,Grocery,Consumer
 from rest_framework.permissions import AllowAny
-from rest_framework.generics  import CreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.generics  import (CreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView,ListCreateAPIView)
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_100_CONTINUE,HTTP_201_CREATED,HTTP_404_NOT_FOUND,HTTP_200_OK,HTTP_206_PARTIAL_CONTENT
-from .serializer import Groceryserializer,statoneryserializer,Clothingseriallizer,Furinitureseriliazer,consumerserializer
+from rest_framework.status import (HTTP_100_CONTINUE,
+HTTP_201_CREATED,HTTP_404_NOT_FOUND,
+HTTP_200_OK,HTTP_206_PARTIAL_CONTENT)
+from .serializer import (stationeryserializer,
+Clothingseriallizer,Furinitureseriliazer,
+consumerserializer,Groceryserializer)
 
 
-class consumer_create(CreateAPIView):
+class consumer_create(ListCreateAPIView):
     permission_classes=[AllowAny]
     serializer_class = consumerserializer
-    def create(self, request, *args, **kwargs):
+    print(serializer_class)
+
+    queryset = Consumer.objects.all()  
+    def list(self,request):
+       queryset = Consumer.objects.all() 
+       print(consumerserializer)
+       serializer = consumerserializer(queryset, many=True)
+
+       return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
         serializer = consumerserializer(data=request.data)
         if serializer.is_valid():
             try:
                 serializer.save()
                 return Response({'status':'consumer created'},status=HTTP_201_CREATED)
             except Exception as e:
-                return Response({'stauts':'not crated','data':serializer.errors},status=HTTP_404_NOT_FOUND)    
+                return Response({'stauts':'not crated','data':serializer.errors},status=HTTP_404_NOT_FOUND)  
+    
+
+
 class consumerEditView(RetrieveUpdateDestroyAPIView):
     permission_classes =[AllowAny]
     serializer_class = consumerserializer
-    queryset = consumer.objects.all()
+    queryset = Consumer.objects.all()
+    
     def retrieve(self,request,pk):
         try:
-             queryset = consumer.objects.get(id=pk)
+             
+             queryset = Consumer.objects.get(id=pk)
              print(queryset)
              serializer = consumerserializer(queryset)
              return Response(serializer.data,status=HTTP_200_OK)
@@ -46,7 +65,7 @@ class GroceryView(APIView):
                 return Response({'status':'grocerynot crated','data':seriliazer.errors},status=HTTP_206_PARTIAL_CONTENT)
 class GroceryEditView(RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny]
-    serializer__class  = Groceryserializer
+    serializer_class  = Groceryserializer
     queryset = Grocery.objects.all()
     def retrive(self,request,pk):
         try:
@@ -56,24 +75,25 @@ class GroceryEditView(RetrieveUpdateDestroyAPIView):
         except:
             return Response({"status":"Gerocery_Id_doesnot_exist"},status=HTTP_206_PARTIAL_CONTENT)
 
-class StatenoeryCreate(APIView):
+class StationeryCreate(APIView):
     permission_classes = [AllowAny]
-    serializer_class = statoneryserializer
-    def create(self,request):
-        serializer = statoneryserializer(data=request.data)
+    serializer_class = stationeryserializer
+    def post(self,request):
+        serializer = stationeryserializer(data=request.data)
         if serializer.is_valid():
             try:
                 serializer.save()
                 return Response({'status':'statonery created'},status= HTTP_200_OK)
             except:
                 return Response({'status':'statonery is not crated'},status=HTTP_206_PARTIAL_CONTENT)
-class StatenoeryEditView(RetrieveUpdateDestroyAPIView):
+class StationeryEditView(RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny]
-    serializer_class = statoneryserializer
+    serializer_class = stationeryserializer
+    queryset = Stationery.objects.all()
     def retrive(self,request,pk):
         try:
-            queryset = Stateonery.objects.get(id=pk)
-            serializer = statoneryserializer(queryset)
+            queryset = Stationery.objects.get(id=pk)
+            serializer = stationeryserializer(queryset)
             return Response(serializer.data,status=HTTP_100_CONTINUE)
         except:
             return Response({'status':'statonery is not updated'},status=HTTP_206_PARTIAL_CONTENT)    
@@ -81,7 +101,7 @@ class StatenoeryEditView(RetrieveUpdateDestroyAPIView):
 class ClothingCreate(APIView):
     permission_classes = [AllowAny]
     serializer_class = Clothingseriallizer
-    def create(self,request):
+    def post(self,request):
         serializer = Clothingseriallizer(data=request.data)
         if serializer.is_valid():
             try:
@@ -93,6 +113,7 @@ class ClothingCreate(APIView):
 class ClothingEditView(RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny]
     serializer_class = Clothingseriallizer
+    queryset = Clothing.objects.all()
     def retrive(self,request,pk):
         data = Clothingseriallizer.get(id=pk)
         try:
@@ -103,7 +124,7 @@ class ClothingEditView(RetrieveUpdateDestroyAPIView):
 class Funriniturecreate(APIView):
     permission_classes = [AllowAny]
     serializer_class = Furinitureseriliazer
-    def create(self,request):
+    def post(self,request):
         serializer = Furinitureseriliazer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -112,11 +133,22 @@ class Funriniturecreate(APIView):
 class FunrinitureEditView(RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny] 
     serializer_class = Furinitureseriliazer
-    
+    queryset = Furiniture.objects.all()
     def retrive(self,request,pk):
        queryset = Furiniture.objects(id=pk)
        try:
           serializer = Furinitureseriliazer(queryset = queryset)
-          return Response(serializer.data,status=HTTP_100_CONTINUE)
+          return Response(serializer.data,status=HTTP_200_OK)
        except:
         return Response({'status':'Funriniture id  is not updated'},status=HTTP_206_PARTIAL_CONTENT)    
+class consumerprofileEdit(RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = consumerserializer
+    queryset = Consumer.objects.all()
+    def retieve(self,request,pk):
+        try:
+            queryset = Consumer.objects(id=pk)
+            serializer = consumerserializer(queryset = queryset)
+            return Response(serializer.data,status=HTTP_200_OK)
+        except:
+            return Response({'status':'consumerprofile_id_doesnot exist '},status=HTTP_206_PARTIAL_CONTENT)    
