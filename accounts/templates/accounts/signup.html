@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+    {% extands.main.html %}
+    {% block signup %}
+    {% load static %}
+    {% csrf_token %}
+    <div class="signup_class">
+        <div class="signup">
+            <label>name:</label>
+            <input type="text" name="username" id="name_id">
+           <label>Email:</label> 
+           <input class="email" placeholder="email" id="email_id" >
+           <label>Address:</label>
+           <input class="address" placeholder="adress" id="address_id">
+           <label>Phone:</label>
+           <input class="phone" placeholder="phone" id="phone_id">
+        </div>
+    </div>
+    <script src="{% static 'scripts_files/signup.js'%}" type="text/javescript"></script>
+    {% endblock %}   
+     
+</body>
+</html>

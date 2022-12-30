@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<head>
+ {% load static %}
+</head>
+{% block contents %}{% endblock %}
+{% block login %} {% endblock %}
+{% block signup %} {% endblock %}
+<script>
+    var host = window.location.protocol+'//'+window.location.host;
+    document.getElementById('signup').href = `${host}/signup`
+    document.getElementById('login').href = `${host}/login`
+</script>
