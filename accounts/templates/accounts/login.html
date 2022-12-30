@@ -1,13 +1,15 @@
-{%extands.main.html%}
+{% extends "main.html" %}
 {% block login %}
-{%load static%}
-{%csrf_tokens %}
+{% load static %}
+{%csrf_token %}
+{{form.as_p }}
 <div class="login">
     <label>Email</label>
     <input type ='text'placeholder="login" id = 'email_id'>
     <label>password</label>
     <input type ='password' id = 'password'>
+    <button class="button">submit</button>
 </div>
-<script src="{%statics 'scripts_files/login.js%'%}"></script>
+<script src="{static 'sctipts/login.js'%}"></script>
 {% endblock %}
 

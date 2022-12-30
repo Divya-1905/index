@@ -7,8 +7,8 @@ function get(){
     var addres = document.getElementById("id_address").value
     var phone = document.getElementById("id_phone").value
 }
-console.log(email,address,phone,name  )
-fetch('http://127.0.0.1:9000/api/signup', {
+console.log(email,address,phone, name )
+fetch('http://127.0.0.1:8000/accounts/signup', {
     method: 'POST',
     body: JSON.stringify({'email':email,'phone':phone,'name':name}),
     headers: new Headers({

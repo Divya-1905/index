@@ -8,7 +8,7 @@ function login(
 )
 console.log(email)
 console.log(password)
-fetch('',{
+fetch('http://127.0.0.1:8000/accounts/login',{
     method: 'POST',
     body :({
         'email': email,

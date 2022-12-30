@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+    {% extends 'main.html'%}
+    {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +9,8 @@
     <title>Signup</title>
 </head>
 <body>
-    {% extands.main.html %}
+
     {% block signup %}
-    {% load static %}
     {% csrf_token %}
     <div class="signup_class">
         <div class="signup">
@@ -21,9 +22,10 @@
            <input class="address" placeholder="adress" id="address_id">
            <label>Phone:</label>
            <input class="phone" placeholder="phone" id="phone_id">
+           <button class="button">submit</button>
         </div>
     </div>
-    <script src="{% static 'scripts_files/signup.js'%}" type="text/javescript"></script>
+    <script src="{static 'scripts/signup.js'%}" type="text/javescript"></script>
     {% endblock %}   
      
 </body>
